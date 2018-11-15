@@ -78,6 +78,17 @@ class CameraActivity : AppCompatActivity() {
                     }
                     Sensor.TYPE_ACCELEROMETER -> {
                         accelerometr = event.values.clone()
+                        var ax = R.id.ax as TextView
+                        ax.text = accelerometr[0].toString()
+                        //ax.setText(java.lang.Float.toString(accelerometr[0]))
+
+                        var ay = R.id.ay as TextView
+                        ay.text = accelerometr[1].toString()
+//                        ay.setText(java.lang.Float.toString(accelerometr[1]))
+
+                        var az = R.id.az as TextView
+                        az.text = accelerometr[2].toString()
+//                        az.setText(java.lang.Float.toString(toStringaccelerometr[2]))
                         var curTime = System.currentTimeMillis()
                         if ((curTime - lastUpdate) > 100) {
                             var diffTime = curTime - lastUpdate
@@ -89,15 +100,21 @@ class CameraActivity : AppCompatActivity() {
                             if (speed > 1000) {
                                 shake = true;
                                 lastUpdateShake = curTime;
-                            }
-                            else if((curTime - lastUpdateShake) > 5000){
+                            } else if ((curTime - lastUpdateShake) > 5000) {
                                 shake = false;
                             }
                             last_x = x;
                             last_y = y;
                             last_z = z;
                         }
+                        var shakeTextView = R.id.shake as TextView
+                        if(shake){
+                            shakeTextView.text = "Wykryto wstrząs"
+                        } else {
+                            shakeTextView.text = " "
+                        }
                     }
+                    Sensor.TYPE_MAGNETIC_FIELD -> print("Magnetic")
                 }
             }
         }

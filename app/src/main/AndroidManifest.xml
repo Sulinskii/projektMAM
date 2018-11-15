@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.artur.projekt1">
-
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="Super projekt MAM"
             android:roundIcon="@mipmap/ic_launcher_round"
+            android:largeHeap="true"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -14,9 +15,14 @@
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="com.google.intent.category.CARDBOARD" />
             </intent-filter>
         </activity>
         <activity android:name=".CameraActivity" >
+        </activity>
+        <activity android:name=".CameraActiv" >
+        </activity>
+        <activity android:name=".SimpleVrPanoramaActivity" >
         </activity>
     </application>
 

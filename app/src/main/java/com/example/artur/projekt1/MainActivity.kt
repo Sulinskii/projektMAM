@@ -20,7 +20,12 @@ class MainActivity : AppCompatActivity() {
             menuItem.isChecked = true
             when (menuItem.itemId) {
                 R.id.nav_camera -> {
-                    val intent = Intent(this, CameraActivity::class.java)
+                    val intent = Intent(this, CameraActiv::class.java)
+                    // start your next activity
+                    startActivity(intent)
+                }
+                R.id.nav_slideshow -> {
+                    val intent = Intent(this, SimpleVrPanoramaActivity::class.java)
                     // start your next activity
                     startActivity(intent)
                 }

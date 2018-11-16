@@ -1,4 +1,5 @@
 package com.example.artur.projekt1;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView.Options;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,7 +30,9 @@ import java.io.InputStream;
 
 public class SimpleVrPanoramaActivity extends AppCompatActivity {
     private static final String TAG = SimpleVrPanoramaActivity.class.getSimpleName();
-    /** Actual panorama widget. **/
+    /**
+     * Actual panorama widget.
+     **/
     private VrPanoramaView panoWidgetView;
     /**
      * Arbitrary variable to track load status. In this example, this variable should only be accessed
@@ -36,9 +40,13 @@ public class SimpleVrPanoramaActivity extends AppCompatActivity {
      * the panorama is fully loaded.
      */
     public boolean loadImageSuccessful;
-    /** Tracks the file to be loaded across the lifetime of this app. **/
+    /**
+     * Tracks the file to be loaded across the lifetime of this app.
+     **/
     private Uri fileUri;
-    /** Configuration information for the panorama. **/
+    /**
+     * Configuration information for the panorama.
+     **/
     private Options panoOptions = new Options();
     private ImageLoaderTask backgroundImageLoaderTask;
 
@@ -50,28 +58,10 @@ public class SimpleVrPanoramaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vr);
-
-        // Make the source link clickable.
-
-
         panoWidgetView = (VrPanoramaView) findViewById(R.id.pano_view);
         panoWidgetView.setEventListener(new ActivityEventListener());
-
         // Initial launch of the app or an Activity recreation due to rotation.
         handleIntent(getIntent());
-    }
-
-    /**
-     * Called when the Activity is already running and it's given a new intent.
-     */
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Log.i(TAG, this.hashCode() + ".onNewIntent()");
-//         Save the intent. This allows the getIntent() call in onCreate() to use this new Intent during
-//         future invocations.
-        setIntent(intent);
-//         Load the new image.
-        handleIntent(intent);
     }
 
     /**
@@ -90,7 +80,6 @@ public class SimpleVrPanoramaActivity extends AppCompatActivity {
             fileUri = null;
             panoOptions.inputType = Options.TYPE_MONO;
         }
-
         // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
         // take 100s of milliseconds.
         if (backgroundImageLoaderTask != null) {
@@ -125,8 +114,7 @@ public class SimpleVrPanoramaActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-
-
+    
     class ImageLoaderTask extends AsyncTask<Pair<Uri, Options>, Void, Boolean> {
 
         /**
@@ -136,27 +124,15 @@ public class SimpleVrPanoramaActivity extends AppCompatActivity {
         protected Boolean doInBackground(Pair<Uri, Options>... fileInformation) {
             Options panoOptions = null;  // It's safe to use null VrPanoramaView.Options.
             InputStream istr = null;
-//            if (fileInformation == null || fileInformation.length < 1
-//                    || fileInformation[0] == null || fileInformation[0].first == null) {
-                AssetManager assetManager = getAssets();
-                try {
-                    istr = assetManager.open("andes.jpg");
-                    panoOptions = new Options();
-                    panoOptions.inputType = Options.TYPE_STEREO_OVER_UNDER;
-                } catch (IOException e) {
-                    Log.e(TAG, "Could not decode default bitmap: " + e);
-                    return false;
-                }
-//            } else {
-//                try {
-//                    istr = new FileInputStream(new File(fileInformation[0].first.getPath()));
-//                    panoOptions = fileInformation[0].second;
-//                } catch (IOException e) {
-//                    Log.e(TAG, "Could not load file: " + e);
-//                    return false;
-//                }
-//            }
-
+            AssetManager assetManager = getAssets();
+            try {
+                istr = assetManager.open("andes.jpg");
+                panoOptions = new Options();
+                panoOptions.inputType = Options.TYPE_STEREO_OVER_UNDER;
+            } catch (IOException e) {
+                Log.e(TAG, "Could not decode default bitmap: " + e);
+                return false;
+            }
             panoWidgetView.loadImageFromBitmap(BitmapFactory.decodeStream(istr), panoOptions);
             try {
                 istr.close();
